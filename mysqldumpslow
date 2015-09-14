@@ -1,0 +1,57 @@
+Count: 3961  Time=0.01s (52s)  Lock=0.00s (0s)  Rows=1.0 (3961), isucon[isucon]@localhost
+  SELECT COUNT(N) AS cnt FROM login_log WHERE user_id = N AND N < id
+
+Count: 354  Time=0.07s (24s)  Lock=0.00s (0s)  Rows=1.0 (354), isucon[isucon]@localhost
+  SELECT COUNT(N) AS failures FROM login_log WHERE ip = 'S' AND id > IFNULL((select id from login_log where ip = 'S' AND succeeded = N ORDER BY id DESC LIMIT N), N)
+
+Count: 354  Time=0.06s (21s)  Lock=0.00s (0s)  Rows=1.0 (354), isucon[isucon]@localhost
+  SELECT COUNT(N) AS failures FROM login_log WHERE user_id = N AND id > IFNULL((select id from login_log where user_id = N AND succeeded = N ORDER BY id DESC LIMIT N), N)
+
+Count: 80  Time=0.05s (4s)  Lock=0.00s (0s)  Rows=1.2 (94), isucon[isucon]@localhost
+  SELECT login, ip, created_at FROM login_log WHERE succeeded = N AND user_id = N ORDER BY id DESC LIMIT N
+
+Count: 354  Time=0.01s (3s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  INSERT INTO login_log (`created_at`, `user_id`, `login`, `ip`, `succeeded`) VALUES ('S',N,'S','S',N)
+
+Count: 10836  Time=0.00s (1s)  Lock=0.00s (0s)  Rows=0.6 (6157), 3users@localhost
+  #
+
+Count: 1  Time=0.31s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  SELECT ip FROM (SELECT ip, MAX(succeeded) as max_succeeded, COUNT(N) as cnt FROM login_log GROUP BY ip) AS t0 WHERE t0.max_succeeded = N AND t0.cnt >= N
+
+Count: 1  Time=0.15s (0s)  Lock=0.00s (0s)  Rows=292.0 (292), isucon[isucon]@localhost
+  SELECT ip, MAX(id) AS last_login_id FROM login_log WHERE succeeded = N GROUP by ip
+
+Count: 1  Time=0.13s (0s)  Lock=0.00s (0s)  Rows=1129.0 (1129), isucon[isucon]@localhost
+  SELECT user_id, login FROM (SELECT user_id, login, MAX(succeeded) as max_succeeded, COUNT(N) as cnt FROM login_log GROUP BY user_id) AS t0 WHERE t0.user_id IS NOT NULL AND t0.max_succeeded = N AND t0.cnt >= N
+
+Count: 1  Time=0.13s (0s)  Lock=0.00s (0s)  Rows=3961.0 (3961), isucon[isucon]@localhost
+  SELECT user_id, login, MAX(id) AS last_login_id FROM login_log WHERE user_id IS NOT NULL AND succeeded = N GROUP BY user_id
+
+Count: 350  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=1.0 (350), isucon[isucon]@localhost
+  SELECT id, login, password_hash, salt FROM users WHERE login = 'S'
+
+Count: 1  Time=0.03s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), root[root]@localhost
+  set global slow_query_log = ON
+
+Count: 79  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=1.0 (79), isucon[isucon]@localhost
+  SELECT id, login, password_hash, salt FROM users WHERE id = 'S'
+
+Count: 1  Time=0.00s (0s)  Lock=0.01s (0s)  Rows=3.0 (3), [vagrant]@localhost
+  show variables like 'S'
+
+Count: 2  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=1.0 (2), isucon[isucon]@localhost
+  SELECT @@max_allowed_packet
+
+Count: 1  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=1.0 (1), [vagrant]@localhost
+  select @@version_comment limit N
+
+Count: 5353  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), 0users@0hosts
+  administrator command: Close stmt
+
+Count: 5481  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), 0users@0hosts
+  administrator command: Prepare
+
+Count: 2  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), 0users@0hosts
+  administrator command: Quit
+
